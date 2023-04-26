@@ -15,6 +15,7 @@ fn main() {
 
 
     loop {
+
         let mut guess = String::new();
 
         io::stdin()
