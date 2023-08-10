@@ -2,11 +2,8 @@
 // Make the code print a greeting to the world.
 // Execute `rustlings hint intro2` or use the `hint` watch subcommand for a hint.
 
+// I AM NOT DONE
 
-
-//noinspection ALL
 fn main() {
-    let msg = "World";
-    println!("Hello {}!",msg)
-
+    println!("Hello {}!");
 }
