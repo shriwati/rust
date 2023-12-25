@@ -72,12 +72,31 @@ fn read_arg()->Arguments {
 #[test]
 fn test_replacement(){
     let args = Arguments{
-        replacement:"World".to_string(),
-        target:"Rust".to_string(),
+        replacement:"Rust".to_string(),
+        target:"World".to_string(),
         file_name:"hello.txt".to_string(),
         output_filename:"hello2.txt".to_string()
     };
+    println!("Arguments are {:?}",&args);
+    //create input file
+    write_file(&args.file_name,&"Hello, World");
 
+    let data = read_file(&args.file_name);
 
+    let replace_data = match replace(&args.target,&args.replacement,&data.trim_end()) {
+        Ok(v)=>v,
+        Err(_e)=>{
+            eprintln!("Match {} not found",&args.target);
+            std::process::exit(1);
+        }
+    };
+    write_file(&args.output_filename,&replace_data);
+
+    let data = read_file(&args.output_filename);
+    assert_eq!(data,"Hello, Rust");
+    println!("All good");
+    println!("Deleting test files");
+    let _ =fs::remove_file(&args.output_filename);
+    let _ = fs::remove_file(&args.file_name);
 
 }
