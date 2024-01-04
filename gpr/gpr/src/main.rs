@@ -10,9 +10,8 @@ struct Arguments{
 }
 
 fn main() {
-
     let args = read_arg();
-    println!("Arguments are {:?}",args);
+    println!("{:?}",args);
 
     let data = read_file(&args.file_name);
 
@@ -68,6 +67,7 @@ fn read_arg()->Arguments {
     }
 
 }
+
 
 #[test]
 fn test_replacement(){
