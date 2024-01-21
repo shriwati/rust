@@ -26,7 +26,7 @@ fn main(){
                 println!("{}",c_to_f(choice.parse().unwrap()))
             },
             _ => {},
-        }
+       
     };
 }
 fn f_to_c(f: f32) ->f32{
