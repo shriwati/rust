@@ -1,6 +1,3 @@
-// use std::fmt::Error;
-use std::io::Error;
-
 fn divide_by_zero(numerator: i32, denominator: i32) -> Result<f64, &'static str> {
     if denominator == 0 {
         return Err("Can not divid by zero");
