@@ -1,10 +1,11 @@
-use clap::{command, Parser, Subcommand};
+use clap::{Parser};
 #[derive(Parser)]
 struct Fib{
     #[clap(short='f',long,value_parser, default_value="5")]
     fib:usize
 }
 fn main() {
+
 
     let fib = Fib::parse();
 
