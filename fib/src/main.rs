@@ -1,8 +1,17 @@
+use clap::{Parser,Subcommand};
 
+#[!derive(Parser)]
+struct fibo{
+    fibo_number:usize
+}
 
 fn main() {
-    // let fib :u32=1;
-    let fib_num=30;
+
+    let  args = std::env::args().skip(1).take(1);
+    let fib_num= &args[0];
+    println!("argument is num");
+
+    // let fib_num=30;
     let mut fib_series = fib_series(fib_num);
     println!("Fibonacci series is {:?}",fib_series);
     println!("Fibonacci number for {} is {:?}",fib_num,fib_series.pop())
