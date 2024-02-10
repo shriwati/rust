@@ -1,20 +1,22 @@
-use clap::{Parser,Subcommand};
-
-#[!derive(Parser)]
-struct fibo{
-    fibo_number:usize
+use clap::{command, Parser, Subcommand};
+#[derive(Parser)]
+struct Fib{
+    #[clap(short='f',long,value_parser, default_value="5")]
+    fib:usize
 }
-
 fn main() {
 
-    let  args = std::env::args().skip(1).take(1);
-    let fib_num= &args[0];
-    println!("argument is num");
+    let fib = Fib::parse();
+
+    println!("Fib number is {}",fib.fib);
+    let fib_num= fib.fib;
 
     // let fib_num=30;
     let mut fib_series = fib_series(fib_num);
     println!("Fibonacci series is {:?}",fib_series);
-    println!("Fibonacci number for {} is {:?}",fib_num,fib_series.pop())
+    let num = fib_series.pop().unwrap() as i32;
+    println!("Fibonacci number for {} is {:?}",fib_num, num)
+
 }
 fn fib_series(n:usize)->Vec<u32>{
     let mut fib_series:Vec<u32>=vec![];
