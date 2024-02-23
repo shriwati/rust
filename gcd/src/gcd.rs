@@ -25,3 +25,11 @@ pub fn gcd_recur(a:u32,b:u32)-> u32 {
         a
     }
 }
+
+
+#[test]
+fn test_gcd(){
+    print!("gcd test of 81,153");
+    assert_eq!(gcd_non_recurssion(81,153),9);
+
+}
