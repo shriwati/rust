@@ -1,26 +1,29 @@
 mod gcd;
 mod collatz_seq;
+mod matrix;
+
+
 
 use std::time::Instant;
+fn incr(n:&mut i32){
+    *n +=1
+}
 
-fn main() {
-    println!("Collatz length of 3 is {}",collatz_seq::collatz_seq(3));
-    // println!("calculating GCD - recursion and loop");
-    //
-    // let n = Instant::now();
-    // println!("start time {:?}",Instant::now() );
-    // let gcd = gcd::gcd_recur(81,153);
-    // let m =Instant::now();
-    // println!("gcd is {:?}, time taken {:?}", gcd, m-n);
-    //
-    //
-    // let n = Instant::now();
-    // println!("start time {:?}",Instant::now() );
-    // let gcd = gcd::gcd_non_recurssion(81,153);
-    // let m =Instant::now();
-    // println!("gcd is {:?}, time taken {:?}", gcd, m-n);
-
-
+fn get_first(name: &(String, String)) -> &String {
+    &name.0
 }
 
 
+
+fn main() {
+
+    let matrix = [
+        [101, 102, 103], // <-- the comment makes rustfmt add a newline
+        [201, 202, 203],
+        [301, 302, 303],
+    ];
+
+    println!("matrix: {:#?}", matrix);
+    let transposed = matrix::transpose(matrix);
+    println!("transposed: {:#?}", transposed);
+}

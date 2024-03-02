@@ -1,6 +1,6 @@
 use crate::collatz_seq;
 
-pub fn collatz_seq(mut num:u32) ->u32{
+pub fn collatz_seq(mut num:u32)-> Vec<u32>{
     // generates the collatz sequence
     let mut seq:Vec<u32>=vec![];
     if num > 0 {
@@ -13,11 +13,11 @@ pub fn collatz_seq(mut num:u32) ->u32{
             seq.push(num);
         }
     }
-    seq.len() as u32
+   seq
 
 }
 
 #[test]
 fn test_collatz_length() {
-    assert_eq!( collatz_seq::collatz_seq(11),15);
+    assert_eq!( collatz_seq::collatz_seq(11).len(),15);
 }

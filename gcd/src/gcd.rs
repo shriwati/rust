@@ -1,5 +1,5 @@
 
-pub fn gcd_non_recurssion(a:u32,b:u32)->u32{
+    pub fn gcd_non_recurssion(a:u32,b:u32)->u32{
     let mut _gcd = 0;
     let mut _temp = 0;
     let mut _a = a;
