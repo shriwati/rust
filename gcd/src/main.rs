@@ -1,10 +1,10 @@
 mod gcd;
 mod collatz_seq;
 mod matrix;
+mod magnitude;
 
+use crate::magnitude::{magnitude, normalize};
 
-
-use std::time::Instant;
 fn incr(n:&mut i32){
     *n +=1
 }
@@ -14,16 +14,12 @@ fn get_first(name: &(String, String)) -> &String {
 }
 
 
-
 fn main() {
 
-    let matrix = [
-        [101, 102, 103], // <-- the comment makes rustfmt add a newline
-        [201, 202, 203],
-        [301, 302, 303],
-    ];
+    println!("Magnitude of a unit vector: {}", magnitude(&vec![0.0, 1.0, 0.0]));
+    let mut v = vec![1.0, 2.0, 9.0];
+    println!("Magnitude of {v:?}: {}", magnitude(&v));
+    normalize(&mut v);
+    println!("Magnitude of {v:?} after normalization: {}", magnitude(&v));
 
-    println!("matrix: {:#?}", matrix);
-    let transposed = matrix::transpose(matrix);
-    println!("transposed: {:#?}", transposed);
 }
