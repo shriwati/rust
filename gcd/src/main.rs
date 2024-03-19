@@ -4,7 +4,6 @@ mod matrix;
 mod magnitude;
 mod elevator;
 
-use std::cell::Cell;
 use crate::elevator::{Direction, Elevator};
 use crate::magnitude::{magnitude, normalize};
 
