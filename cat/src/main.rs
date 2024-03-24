@@ -15,6 +15,7 @@ use std::io::Read;
 fn main() {
 
     let arg = env::args().skip(1);
+    let mut data = String::new();
     if arg.len()<=0 {
         println!("no input");
         std::process::exit(132);
@@ -23,13 +24,10 @@ fn main() {
         println!("###############");
         for filename in arg {
             println!("{filename}");
-            let mut data = String::new();
             read_file_return_string(&filename, &mut data);
-
-            println!("{data}");
-            println!("###############");
         }
-
+        println!("{}",&data);
+        println!("###############");
 
     }
 
