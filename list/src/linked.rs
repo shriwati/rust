@@ -1,6 +1,7 @@
 pub mod linked_list {
+    use std::fmt;
 
-    #[derive(Debug,  Clone)]
+    #[derive( Clone)]
     pub struct Node<T> {
         pub element: Option<T>,
         pub next: Option<Box<Node<T>>>,
@@ -15,4 +16,22 @@ pub mod linked_list {
             })
         }
     }
-}
+
+    impl<T> fmt::Display for Node<T>
+        where
+            T: std::fmt::Display,
+    {
+        fn fmt(&self, f: &mut fmt::Formatter) -> std::fmt::Result {
+            let formatted_elements = self
+                .element
+                .iter()
+                .map(|el| format!("{}", el))
+                .collect::<Vec<_>>();
+            let elements = formatted_elements.join(", ");
+            write!(f, "[{:?}]",elements)
+            }
+
+        }
+    }
+
+
