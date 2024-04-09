@@ -7,13 +7,13 @@ pub mod linked_list {
         pub next: Option<Box<Node<T>>>,
     }
 
-    impl <T> Node< T> {
-        pub fn new(data: Option<T>) -> Box<Node<T>> {
-            Box::new(Node
+    impl <T> Node<T> {
+        pub fn new() -> Node<T> {
+            Node
             {
-                element: data,
+                element: None,
                 next: None
-            })
+            }
         }
     }
 
