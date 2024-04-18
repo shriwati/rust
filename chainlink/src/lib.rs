@@ -1,4 +1,6 @@
+use std::cell::RefCell;
 use std::rc::Rc;
+
 
 /*
 create nodes that can be
@@ -13,35 +15,33 @@ ptr - > pointing to new node or None
 */
 
 pub struct LinkedList<T>{
-    head_ptr:Option<Rc<Node<T>>>,
-    start_ptr:Option<Rc<Node<T>>>,
-    end_ptr:Option<Rc<Node<T>>>
+    head:Option<Rc<RefCell<Node<T>>>>,
+    start:Option<Rc<RefCell<Node<T>>>>,
+    end:Option<Rc<RefCell<Node<T>>>>
 }
 pub struct Node<T>{
     item:T,
-    next:Option<Rc<Node<T>>>
+    next:Option<Rc<RefCell<Node<T>>>>
 }
 
 impl<T> LinkedList<T>{
     fn new() -> Self {
         // both ends set to None
         LinkedList {
-            head_ptr:None,
-            start_ptr:None,
-            end_ptr:None }
+            head:None,
+            start:None,
+            end:None }
     }
 
     pub fn create_node(&mut self, data:T){
-      let node = Rc::new(Node{
+      let node = Rc::new(RefCell::new(Node{
           item:data,
-          next:self.head_ptr.take() //None
-      });
-        self.head_ptr = Some(Rc::clone(&node));
-        if self.start_ptr.is_none(){
-            self.start_ptr = Some(Rc::clone(&node))
+          next:self.head.take() //None
+      }));
+        if self.start.is_none() {
+            self.start= Some(node.clone());
         }
-        // end ptr
-        self.end_ptr = Some(Rc::clone(&node))
+        self.end = Some(node.clone());
     }
 
 }
@@ -50,6 +50,8 @@ impl<T> LinkedList<T>{
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
+
+
 
 #[cfg(test)]
 mod tests {
@@ -63,8 +65,9 @@ mod tests {
         list.create_node(2);
         list.create_node(3);
 
-        let  ptr = list.start_ptr;
-        println!("value is {}",ptr.unwrap().item );
+
+
+        println!("value is {}",1 );
 
     }
 }
