@@ -15,7 +15,6 @@ ptr - > pointing to new node or None
 */
 
 pub struct LinkedList<T>{
-    head:Option<Rc<RefCell<Node<T>>>>,
     start:Option<Rc<RefCell<Node<T>>>>,
     end:Option<Rc<RefCell<Node<T>>>>
 }
@@ -28,7 +27,6 @@ impl<T> LinkedList<T>{
     fn new() -> Self {
         // both ends set to None
         LinkedList {
-            head:None,
             start:None,
             end:None }
     }
@@ -36,12 +34,13 @@ impl<T> LinkedList<T>{
     pub fn create_node(&mut self, data:T){
       let node = Rc::new(RefCell::new(Node{
           item:data,
-          next:self.head.take() //None
+          next:self.end.take() //None
       }));
-        if self.start.is_none() {
+        if self.start.is_none() { //assigned only once
             self.start= Some(node.clone());
         }
         self.end = Some(node.clone());
+        node.borrow_mut().next = self.end.clone();
     }
 
 }
@@ -61,13 +60,13 @@ mod tests {
     fn it_works() {
 
         let mut list = LinkedList::new();
-        list.create_node(1);
-        list.create_node(2);
-        list.create_node(3);
+        list.create_node(1); //start points to 1 and end points to 1. And 1 points to end
+        list.create_node(2); //start points to 1. 1.Next points to 2. 2.Next points to end. End points to 2.
+        list.create_node(3); //start points to 1. .Next points to 3. 3.Next points to end. End points to 3.
 
 
 
-        println!("value is {}",1 );
+        println!("value is {}", list.end.unwrap().borrow().item);
 
     }
 }
