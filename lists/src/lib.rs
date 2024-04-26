@@ -1,32 +1,61 @@
-// pub mod first;
+use std::cell::{RefCell};
+use std::rc::Rc;
 
-use std::mem;
-
-pub struct List{
-    head:Link,
-}
-enum Link{
-    Empty,
-    More(Box<Node>)
-}
-
-struct Node{
-    element:i32,
-    next: Link
+type Ptr<T> = Option<Rc<RefCell<Node<T>>>>;
+#[derive(Debug)]
+struct Node<T>{
+    prev : Ptr<T>,
+    item:T,
+    next: Ptr<T>
 }
 
+impl <T> Node<T> {
+    pub fn new(element:T)->Self{
+        Node{
+            prev:None,
+            item:element,
+            next:None
+        }
 
-impl List{
+    }
+
+}
+
+#[derive(Debug)]
+pub struct LinkNodes<T>{
+    head: Ptr<T>,
+    tail: Ptr<T>,
+    count:i32
+}
+
+impl <T>LinkNodes<T> {
+
     pub fn new()->Self{
-        List{ head : Link::Empty} // return head that points to Empty Link
+        LinkNodes{
+            head:None,
+            tail:None,
+            count:0
+        }
     }
 
-    pub fn push(&mut self,data:i32){
-        let new_node=Box::new(Node{
-            element:data,
-            next: mem::replace(&mut self.head,Link::Empty) // temporarily replacing it with empty ptr
-        });
-        self.head = Link::More(new_node); // now point it to new node
+    pub fn add_node(&mut self,element:T){
+        let node = Rc::new(RefCell::new(Node::new(element)));
+
+        if let Some(prev_tail)=self.tail.take(){
+            // prev nodes next node points to new node
+            prev_tail.borrow_mut().next = Some(Rc::clone(&node));
+            // new node's prev points to tail
+            node.borrow_mut().prev = Some(prev_tail);
+            // tail points to new node
+            self.tail = Some(node);
+        }else{
+            // head points to new node
+            self.head = Some(Rc::clone(&node));
+            // tail points to new node
+            self.tail = Some(node);
+        }
+        self.count +=1;
+
     }
+
 }
-
