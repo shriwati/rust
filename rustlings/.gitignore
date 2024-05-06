@@ -3,7 +3,6 @@
 /target/tmp/
 /target/.rustc_info.json
 /target/CACHEDIR.TAG
-/target/
 /AUTHORS.md
 /Cargo.lock
 /Cargo.toml
