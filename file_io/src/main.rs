@@ -40,7 +40,10 @@ impl FileInfo {
 }
 
 fn main() {
-    println!("Please type full path and file name to read");
+
+    println!("Please type :");
+    println!("1.Full path and file name to read");
+    println!("2.Read as b:Binary, t:Text");
 
     let mut line = &mut String::new();
     let _  = stdin().read_line(&mut line);
