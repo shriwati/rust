@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "R2_file_read"
+version = "0.1.0"
+dependencies = [
+ "clap",
+]
+
+[[package]]
 name = "anstream"
 version = "0.6.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -96,13 +103,6 @@ name = "colorchoice"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0b6a852b24ab71dffc585bcb46eaf7959d175cb865a7152e35b348d1b2960422"
-
-[[package]]
-name = "file_io"
-version = "0.1.0"
-dependencies = [
- "clap",
-]
 
 [[package]]
 name = "heck"

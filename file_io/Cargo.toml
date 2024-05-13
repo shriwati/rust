@@ -1,5 +1,5 @@
 [package]
-name = "file_io"
+name = "R2_file_read"
 version = "0.1.0"
 edition = "2021"
 
