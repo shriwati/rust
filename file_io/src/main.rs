@@ -27,16 +27,39 @@ impl FileInfo {
         File::open(&file_name)
     }
 
-    pub fn read_text_file(&self) {
-        println!("Reading file..{}", &self.name);
+
+    pub fn read_file(&self, file_type:&str) {
+
+
+        let _ = match file_type {
+            "c" => {
+                println!("Reading file..'{}' as text.", &self.name);
+                self.read_text_file();
+            }
+            "b" => {
+                println!("Reading file..'{}' as bytes.", &self.name);
+                self.read_bytes();
+            }
+            _ => (),
+        };
+
+
+        let f = Self::open_file(&self.name);
+        let mut data = String::new();
+        // read string
+        let _ = f.unwrap().read_to_string(&mut data);
+        println!("Contents of the file '{}' were {:?}", &self.name, &data);
+
+
+    }
+    fn read_text_file(&self) {
         let f = Self::open_file(&self.name);
         let mut data = String::new();
         // read string
         let _ = f.unwrap().read_to_string(&mut data);
         println!("Contents of the file '{}' were {:?}", &self.name, &data);
     }
-
-    pub fn read_bytes(&self) {
+    fn read_bytes(&self) {
         // open the file for read only
         // read contents in to a vector
         // return readonly FileInfo
@@ -51,14 +74,9 @@ impl FileInfo {
 
 fn main() {
     let cli = Cli::parse();
-
     let filename = cli.f;
-    let choice:&str  = &cli.t.to_ascii_lowercase();
     let f = FileInfo::new(filename);
+    f.read_file(&cli.t.to_ascii_lowercase());
 
-    let _ = match choice {
-        "c" => f.read_text_file(),
-        "b" => f.read_bytes(),
-        _ => (),
-    };
+
 }
