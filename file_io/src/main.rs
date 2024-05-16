@@ -10,7 +10,7 @@ use std::io::Read;
 
     struct ElementOccurance{
         element:u8,
-        occurance:Vec<u16>
+        occurance:Vec<usize>
     }
 
 impl ElementOccurance {
@@ -63,32 +63,25 @@ impl ElementOccurance {
         fn read_text_file(&self) {
             let f = Self::open_file(&self.name);
             let mut data = String::new();
-            // read string
             let _ = f.unwrap().read_to_string(&mut data);
             println!("Contents of the file '{}' were {:?}", &self.name, &data);
         }
         fn read_bytes(&self) {
-            println!("reading a file {}", &self.name);
             let f = Self::open_file(&self.name);
-            // read bytecargo run s
             let mut data = Vec::new();
             let _ = f.unwrap().read_to_end(&mut data);
             let ref_data = &data;
-            //
-            let mut list_of_items:Vec<ElementOccurance>=Vec::with_capacity(300);
-
-            println!("Contents of the array");
-            for i in 0..ref_data.len(){
-                let item:u8 = ref_data[i];
-                let k=i+1;
-                let mut ele = ElementOccurance::new(item as u8);
-                println!("{:?}",ref_data[i]);
-                }
-
-            //
-
-
             println!("Contents of the file '{}' were {:?}", &self.name, &data)
+        }
+        fn search_item(item: u8, data:&Vec<u8>, start_loc:usize,locations:&mut ElementOccurance) {
+            // returns aLL the locations found for the item
+            let size = data.len();
+            for i in 0..size{
+                if item == data[i]{
+                    locations.occurance.push(i);
+                }
+            }
+
         }
 
     }
