@@ -3,6 +3,7 @@ use log4rs;
 
 
 
+
 fn main() {
     // init log file
     log4rs::init_file("log_config.yaml", Default::default()).unwrap();
