@@ -9,7 +9,7 @@ fn main() {
 
         if &input.trim().to_lowercase() == "quit" {
             println!("{}", input);
-            exit(1);
+            exit(1)
         }
         else {
             println!("{}", input);
