@@ -20,15 +20,12 @@ impl FileInfo {
     pub fn read_file(&self, file_type: &str) -> std::io::Result<()> {
         let _ = match file_type {
             "c" => {
-                println!("Reading file..'{}' as text.", &self.name);
                 self.read_text_file()?;
             }
             "b" => {
-                println!("Reading file..'{}' as bytes.", &self.name);
                 self.read_bytes();
             }
             "l" => {
-                println!("Reading file..'{}' as lines.", &self.name);
                 self.read_lines();
             }
 
@@ -69,6 +66,6 @@ impl FileInfo {
 
 #[test]
 fn open_cargo_file() {
-    let f = FileInfo::new("/Users/shrisakrikar/Downloads/super_store.csv".to_string());
+    let f = FileInfo::new("Cargo.toml".to_string());
     let _ = f.read_file(&"l");
 }
