@@ -5,12 +5,21 @@
     use std::path::Path;
 
 
-    pub fn read_file(filename_with_path: &str) -> std::io::Result<Vec<String>> {
-        //get absolute path
+    pub fn read_file(filename_with_path: &str, buf_size:Option<usize>) -> std::io::Result<Vec<String>> {
+        let memory_buffer:usize ;
+
+        match buf_size {
+            Some(buf_size) => {
+                memory_buffer = buf_size;
+            }
+            None => {
+                memory_buffer = 1024 * 1024;
+            }
+        }
 
         let abs_file_path =  get_absolute_path(filename_with_path)?;
         let file = File::open(abs_file_path)?;
-        let reader = BufReader::with_capacity(102400, file);
+        let reader = BufReader::with_capacity(memory_buffer, file);
         reader.lines().collect()
     }
 
