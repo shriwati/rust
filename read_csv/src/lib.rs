@@ -35,7 +35,7 @@
         #[test]
         fn test_read_file() {
             let relative_path = "./src/lib.rs";
-            let reader = match read_file(relative_path){
+            let reader = match read_file(relative_path,None){
                 Ok(reader) => {
                     for line in reader{
                         println!("{:?}",line);
