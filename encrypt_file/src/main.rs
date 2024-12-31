@@ -1,4 +1,3 @@
-use std::env;
 use read_csv::read_file;
 use rail_fence::rail_fence::encrypt;
 
