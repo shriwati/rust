@@ -1,3 +1,4 @@
+
 pub mod rail_fence {
     pub fn encrypt(text: &str, key: usize) -> String {
         let mut char_array = vec![vec!['ł'; text.len()]; key];
@@ -76,7 +77,7 @@ pub mod rail_fence {
 
 #[cfg(test)]
 mod tests {
-    use crate::rail_fence::rail_fence::{decrypt, encrypt};
+    use super::{rail_fence::encrypt};
 
     #[test]
     fn encrypt_test() {
@@ -85,6 +86,7 @@ mod tests {
     }
     #[test]
     fn decrypt_test() {
+        use super::{rail_fence::decrypt};
         let decrypt_test = decrypt("HOREL OL LWD", 3);
         assert_eq!(decrypt_test, "HELLO WORLD ");
     }
