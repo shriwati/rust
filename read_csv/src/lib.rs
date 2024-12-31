@@ -10,7 +10,7 @@
 
         let abs_file_path =  get_absolute_path(filename_with_path)?;
         let file = File::open(abs_file_path)?;
-        let reader = BufReader::new(file);
+        let reader = BufReader::with_capacity(102400, file);
         reader.lines().collect()
     }
 
