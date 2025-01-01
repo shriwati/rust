@@ -13,9 +13,9 @@ dependencies = [
 [[package]]
 name = "rail_fence"
 version = "0.1.0"
-source = "git+https://github.com/shriwati/rust?branch=main#3a17008155d194f48dd4148164754f0f4ca2ebbd"
+source = "git+https://github.com/shriwati/rust?branch=main#74da857fd184182e83cb3504060cf3c1781b894c"
 
 [[package]]
 name = "read_csv"
 version = "0.1.0"
-source = "git+https://github.com/shriwati/rust?branch=main#3a17008155d194f48dd4148164754f0f4ca2ebbd"
+source = "git+https://github.com/shriwati/rust?branch=main#74da857fd184182e83cb3504060cf3c1781b894c"
