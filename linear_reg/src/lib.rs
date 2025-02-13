@@ -1,5 +1,4 @@
-use crate::ml::LinearRegression;
-use std::fs::OpenOptions;
+
 
 pub mod ml {
     #[derive(Debug)]
@@ -93,7 +92,7 @@ pub mod ml {
             // let prediction:Vec<f32>=self.calculate_prediction(wt, bias);
             let mut sme: Vec<f32> = vec![0.0; len];
             while i <= len - 1 {
-                sme.push((self.label[i] - self.prediction[i]).powf(2 as f32));
+                sme.push((self.label[i] - self.prediction[i]).powf(2f32));
                 i += 1;
             }
             self.mean_suqare_error = sme.iter().sum::<f32>() / (len as f32)
@@ -138,11 +137,11 @@ fn it_works() {
     let mut bias = 0.0;
     let mut lr = LinearRegression::new(feature.clone(), label.clone());
 
-    for i in 1..=10 {
+    for _i in 1..=10 {
         let wt_slope_bias_slop = lr.train(wt, bias);
         println!(
             "Iteration:{}, Wt:{}, Bias:{}, MSE:{}",
-            i,
+            _i,
             wt,
             bias,
             lr.get_mean_suqare_error()
