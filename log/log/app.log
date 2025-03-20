@@ -1,0 +1,10 @@
+2024-12-25 04:21:37 - TRACE: detailed tracing info
+2024-12-25 04:21:37 - DEBUG: debug info
+2024-12-25 04:21:37 - INFO: relevant general info
+2024-12-25 04:21:37 - WARN: warning this program doesn't do much
+2024-12-25 04:21:37 - ERROR: error message here
+2024-12-28 18:45:37 - TRACE: detailed tracing info
+2024-12-28 18:45:37 - DEBUG: debug info
+2024-12-28 18:45:37 - INFO: relevant general info
+2024-12-28 18:45:37 - WARN: warning this program doesn't do much
+2024-12-28 18:45:37 - ERROR: error message here
