@@ -27,7 +27,7 @@ fn main() {
             ("type",t) => {
                 match t {
                     "echo" | "type" | "exit" => {
-                        let is_command = Command::new("type").arg(t).output().map(|o| o.status.success()).unwrap_or(false);
+                        let is_command = Command::new(cmd.0).arg(t).output().map(|o| o.status.success()).unwrap_or(false);
                         if is_command {
                             println!("{} is a shell builtin", t);
                         } else {
