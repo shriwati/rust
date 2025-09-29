@@ -7,17 +7,17 @@ A Rust project for database calls with ClickHouse integration and data access ob
 ```
 db_calls/
 ├── src/main.rs              # Main application entry point
-├── dao/                     # Data Access Object library
+├── dal/                     # Data Access Layer library
 │   ├── src/lib.rs          # ClickHouse connection implementation
-│   └── Cargo.toml          # DAO dependencies
+│   └── Cargo.toml          # DAL dependencies
 ├── log/                     # Logging directory
 ├── log_config.yaml         # Logging configuration
 └── Cargo.toml              # Main project dependencies
 ```
 
-## DAO Library Features
+## DAL Library Features
 
-The DAO library provides ClickHouse database connectivity with:
+The DAL library provides ClickHouse database connectivity with:
 
 - **ClickHouseConfig**: Configuration structure for connection parameters
 - **ClickHouseConnection**: Main connection management with async support
@@ -30,10 +30,10 @@ The DAO library provides ClickHouse database connectivity with:
 
 ### Main Project
 - `log` - Logging functionality
-- `dao` - Local DAO library
+- `dal` - Local DAL library
 - `env_logger` - Environment-based logging
 
-### DAO Library
+### DAL Library
 - `clickhouse` - ClickHouse client
 - `tokio` - Async runtime
 - `serde` - Serialization support
@@ -46,8 +46,8 @@ The DAO library provides ClickHouse database connectivity with:
 # Build entire project
 cargo build
 
-# Build DAO library only
-cargo build -p dao
+# Build DAL library only
+cargo build -p dal
 
 # Build with release optimization
 cargo build --release
@@ -58,8 +58,8 @@ cargo build --release
 # Run all tests
 cargo test
 
-# Run DAO library tests only
-cargo test -p dao
+# Run DAL library tests only
+cargo test -p dal
 
 # Run tests with output
 cargo test -- --nocapture
@@ -96,7 +96,7 @@ For local development, ensure ClickHouse is running:
 ## Usage Example
 
 ```rust
-use dao::{create_connection, ClickHouseConfig, create_connection_with_config};
+use dal::{create_connection, ClickHouseConfig, create_connection_with_config};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
