@@ -1,0 +1,8 @@
+[package]
+name = "encrypt_file"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rail_fence = {git ="https://github.com/shriwati/rust",branch="main"}
+read_csv = {git ="https://github.com/shriwati/rust",branch ="main"}
