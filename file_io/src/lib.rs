@@ -1,4 +1,3 @@
-use std::fmt::Debug;
 use std::fs::File;
 use std::io;
 use std::io::{BufRead, BufReader, Read};
@@ -34,7 +33,7 @@ impl FileInfo {
 
         Ok(())
     }
-    fn read_text_file(&self) -> std::io::Result<()> {
+    fn read_text_file(&self) -> io::Result<()> {
         let f = Self::open_file(&self.name);
         let mut data = String::new();
         let _ = f.unwrap().read_to_string(&mut data)?;
@@ -42,7 +41,7 @@ impl FileInfo {
 
         Ok(())
     }
-    fn read_bytes(&self) -> std::io::Result<()> {
+    fn read_bytes(&self) -> io::Result<()> {
         let f = Self::open_file(&self.name);
         let mut data = Vec::new();
         let _ = f.unwrap().read_to_end(&mut data)?;
