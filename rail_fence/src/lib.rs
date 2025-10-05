@@ -1,5 +1,37 @@
 
 pub mod rail_fence {
+    pub fn encrypt(buffer: &Vec<u8>, key: usize) -> Vec<u8> {
+        // create a new vec<vec<u8>>
+        let mut char_array1:Vec<Vec<u8>> = vec![vec![ buffer.len()]; key];
+        let mut char_array = vec![vec!['ł'; text.len()]; key];
+        let mut j = 0;
+        let mut i = 0;
+        let mut direction:i32 = -1;
+
+
+        // if key ==0 then nothing to do
+        if key as i32 == 0 {
+            return buffer.clone();
+        }
+
+        for c in text.chars() {  // for each char in string
+            if i == 0 || i == key - 1 {     // if we reached end of row index, reverse the direction
+                direction = direction * - 1;
+            }
+            char_array[i][j] = c;       // add char to the vector
+            i = ( i as i32 +  direction) as usize;
+            j += 1;
+        }
+
+        // filter out special character "ł"
+        // flatten out rows and append
+        let encrypted_msg: String = char_array
+            .iter()
+            .flatten()
+            .filter(|c| { c.to_string()!="ł"})
+            .collect();
+        encrypted_msg
+    }
     pub fn encrypt_text(text: &str, key: usize) -> String {
         let mut char_array = vec![vec!['ł'; text.len()]; key];
         let mut j = 0;
@@ -30,7 +62,7 @@ pub mod rail_fence {
         encrypted_msg
     }
 
-    pub fn decrypt_text(text: &str, key: u8)->String {
+    pub fn decrypt(text: &str, key: u8)->String {
         let cols = text.len();
         let mut char_array = vec![vec![false; cols]; key as usize];
         let mut decrypted_string=vec![String::new(); key as usize];
@@ -86,8 +118,8 @@ mod tests {
     }
     #[test]
     fn decrypt_test() {
-        use super::{rail_fence::decrypt_text};
-        let decrypt_test = decrypt_text("HOREL OL LWD", 3);
+        use super::{rail_fence::decrypt};
+        let decrypt_test = decrypt("HOREL OL LWD", 3);
         assert_eq!(decrypt_test, "HELLO WORLD ");
     }
 
