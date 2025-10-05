@@ -3,3 +3,7 @@
 /file_io/target
 ls/.idea/workspace.xml
 /modules/.idea
+/target
+/debug
+*.dep
+/rust/*/target/*
