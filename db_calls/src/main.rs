@@ -1,6 +1,6 @@
 use actix_web::{get, web, App, HttpServer, HttpResponse, Responder};
+use chrono::Utc;
 use serde::{Deserialize, Serialize};
-use serde_json::to_string;
 
 #[derive(Deserialize)]
 struct HelloParams {
@@ -33,11 +33,9 @@ async fn get_property_prices() -> impl Responder {
 
 #[get("/health")]
 async fn health() -> impl Responder {
-    use chrono::Utc;
-
     let datetime = "UTC:".to_string() + Utc::now().to_rfc3339().as_str();
 
-    HttpResponse::Ok().json(HealthResponse { datetime})
+    HttpResponse::Ok().json(HealthResponse { datetime })
 }
 
 async fn execute_property_query() -> anyhow::Result<Vec<PropertyTypePrice>> {
