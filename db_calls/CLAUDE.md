@@ -1,53 +1,46 @@
-# DB Calls - Rust Project
+# DB Calls - Web API Project
 
-A Rust project for database calls with ClickHouse integration and data access object (DAO) pattern.
+A Rust workspace project for database calls with ClickHouse integration and web API functionality.
 
 ## Project Structure
 
 ```
 db_calls/
-├── src/main.rs              # Main application entry point
-├── dal/                     # Data Access Layer library
-│   ├── src/lib.rs          # ClickHouse connection implementation
-│   └── Cargo.toml          # DAL dependencies
-├── log/                     # Logging directory
-├── log_config.yaml         # Logging configuration
-└── Cargo.toml              # Main project dependencies
+├── Cargo.toml              # Workspace configuration
+├── api_call/               # API library
+│   ├── src/lib.rs         # API functions
+│   └── Cargo.toml         # API dependencies
+└── CLAUDE.md              # Project documentation
 ```
 
-## DAL Library Features
+## Workspace Configuration
 
-The DAL library provides ClickHouse database connectivity with:
+The workspace uses:
+- **Edition**: 2024
+- **Resolver**: Version 3 (required for edition 2024)
 
-- **ClickHouseConfig**: Configuration structure for connection parameters
-- **ClickHouseConnection**: Main connection management with async support
-- **Connection Functions**:
-  - `create_connection()` - Default local connection
-  - `create_connection_with_config()` - Custom configuration
-  - `test_connection()` - Connectivity verification
+## API Call Library
 
-## Dependencies
+The `api_call` library provides basic API functionality with:
 
-### Main Project
-- `log` - Logging functionality
-- `dal` - Local DAL library
-- `env_logger` - Environment-based logging
+### Functions
+- `helloworld(name: &str) -> String` - Returns a welcome message with the provided name
 
-### DAL Library
-- `clickhouse` - ClickHouse client
-- `tokio` - Async runtime
-- `serde` - Serialization support
-- `anyhow` - Error handling
+### Dependencies
+- `tokio` (v1.42) - Async runtime with full features
+- `serde` (v1.0) - Serialization/deserialization with derive support
+- `serde_json` (v1.0) - JSON support
+- `anyhow` (v1.0) - Error handling
 
 ## Common Commands
 
 ### Build Commands
 ```bash
-# Build entire project
+# Build entire workspace
 cargo build
 
-# Build DAL library only
-cargo build -p dal
+# Build api_call library only
+cargo build -p api_call
 
 # Build with release optimization
 cargo build --release
@@ -58,8 +51,8 @@ cargo build --release
 # Run all tests
 cargo test
 
-# Run DAL library tests only
-cargo test -p dal
+# Run api_call tests only
+cargo test -p api_call
 
 # Run tests with output
 cargo test -- --nocapture
@@ -80,50 +73,19 @@ cargo clippy
 cargo clean
 ```
 
-### ClickHouse Setup
+## Git Information
 
-For local development, ensure ClickHouse is running:
-
-```bash
-# Default connection settings:
-# Host: localhost
-# Port: 8123
-# Database: default
-# Username: default
-# Password: (empty)
-```
+- **Current Branch**: webapi
+- **Main Branch**: main
+- **Edition**: 2024
 
 ## Usage Example
 
 ```rust
-use dal::{create_connection, ClickHouseConfig, create_connection_with_config};
+use api_call::helloworld;
 
-#[tokio::main]
-async fn main() -> anyhow::Result<()> {
-    // Using default local connection
-    let conn = create_connection().await?;
-
-    // Test the connection
-    let is_connected = conn.test_connection().await?;
-    println!("Connected: {}", is_connected);
-
-    // Using custom configuration
-    let config = ClickHouseConfig {
-        host: "localhost".to_string(),
-        port: 8123,
-        database: "my_db".to_string(),
-        username: "user".to_string(),
-        password: "pass".to_string(),
-    };
-
-    let custom_conn = create_connection_with_config(config).await?;
-
-    Ok(())
+fn main() {
+    let message = helloworld("Alice");
+    println!("{}", message); // Output: welcome to Rust Alice
 }
 ```
-
-## Git Information
-
-- **Current Branch**: db_calls
-- **Main Branch**: main
-- **Edition**: 2024

@@ -1,0 +1,10 @@
+[package]
+name = "webapi"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+api_call = { path = "../api_call" }
+tokio.workspace = true
+serde.workspace = true
+actix-web = "4"

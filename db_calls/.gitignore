@@ -1,0 +1,20 @@
+# Rust build artifacts
+**/target/
+target/
+
+# Cargo.lock for libraries (keep it for binaries)
+# Cargo.lock
+
+# Debug files
+**/*.pdb
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
