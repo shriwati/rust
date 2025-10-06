@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "api_call",
+    "dal",
 ]
 resolver = "3"
 
@@ -21,6 +22,10 @@ edition.workspace = true
 
 [dependencies]
 api_call = { path = "api_call" }
+dal = { path = "dal" }
 tokio.workspace = true
 serde.workspace = true
+serde_json.workspace = true
 actix-web.workspace = true
+anyhow.workspace = true
+clickhouse = "0.12"
