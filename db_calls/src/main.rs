@@ -1,5 +1,6 @@
 use actix_web::{get, web, App, HttpServer, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
+use serde_json::to_string;
 
 #[derive(Deserialize)]
 struct HelloParams {
@@ -14,7 +15,7 @@ struct PropertyTypePrice {
 
 #[derive(Serialize)]
 struct HealthResponse {
-    timestamp: i64,
+    datetime: String,
 }
 
 #[get("/helloworld")]
@@ -32,12 +33,11 @@ async fn get_property_prices() -> impl Responder {
 
 #[get("/health")]
 async fn health() -> impl Responder {
-    let timestamp = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .unwrap()
-        .as_secs() as i64;
+    use chrono::Utc;
 
-    HttpResponse::Ok().json(HealthResponse { timestamp })
+    let datetime = "UTC:".to_string() + Utc::now().to_rfc3339().as_str();
+
+    HttpResponse::Ok().json(HealthResponse { datetime})
 }
 
 async fn execute_property_query() -> anyhow::Result<Vec<PropertyTypePrice>> {
@@ -174,12 +174,13 @@ mod tests {
         // Verify it's valid JSON
         let json: serde_json::Value = serde_json::from_str(&body_str).unwrap();
 
-        // Verify timestamp field exists and is a number
-        assert!(json.get("timestamp").is_some());
-        assert!(json["timestamp"].is_i64());
+        // Verify datetime field exists and is a string
+        assert!(json.get("datetime").is_some());
+        assert!(json["datetime"].is_string());
 
-        // Verify timestamp is reasonable (not 0 and not in the future)
-        let timestamp = json["timestamp"].as_i64().unwrap();
-        assert!(timestamp > 0);
+        // Verify datetime is in RFC3339 format (e.g., "2024-01-01T12:00:00Z")
+        let datetime_str = json["datetime"].as_str().unwrap();
+        assert!(!datetime_str.is_empty());
+        assert!(datetime_str.contains("T")); // Basic check for RFC3339 format
     }
 }
