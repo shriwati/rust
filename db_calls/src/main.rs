@@ -1,77 +1,77 @@
-use anyhow::Result;
-use log::{error, info};
+use actix_web::{get, web, App, HttpServer, Responder};
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize, clickhouse::Row)]
-struct PropertyPriceResult {
-    town: String,
-    price:u32
+#[derive(Deserialize)]
+struct HelloParams {
+    name: String,
 }
 
-async fn query_uk_property_prices() -> Result<Vec<PropertyPriceResult>> {
-    info!("Connecting to ClickHouse database...");
-
-    let connection = dal::create_connection("127.0.0.1",8123,"uk_property","default").await?;
-
-    info!("Testing database connection...");
-    let is_connected = connection.test_connection().await?;
-    if !is_connected {
-        return Err(anyhow::anyhow!("Failed to connect to ClickHouse database"));
-    }
-    info!("Database connection successful!");
-
-    let sql = String::from("select  town,max(price)  price
-from uk_property.uk_price_paid
-group by  town
-order by price desc"
-);
-
-    info!("Executing query: {}", &sql);
-
-    let client = connection.get_client();
-    let results = client
-        .query(&sql)
-        .fetch_all::<PropertyPriceResult>()
-        .await?;
-
-    info!("Query executed successfully. Found {} results.", results.len());
-    Ok(results)
+#[get("/helloworld")]
+async fn hello_world(query: web::Query<HelloParams>) -> impl Responder {
+    api_call::helloworld(&query.name)
 }
 
-fn print_property_results(results: &[PropertyPriceResult]) {
-    println!("\n{:-<80}", "");
-    println!("{:30} | {:>15} ",  "Town","Max Price (£)");
-    println!("{:-<80}", "");
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    println!("Server running on http://127.0.0.1:3000");
+    println!("Try: http://127.0.0.1:3000/helloworld?name=Alice");
 
-    for result in results {
-        println!(
-            "{:30}{:50}",
-            result.town,
-            result.price,
-        );
-    }
-    println!("{:-<80}", "");
-    println!("Total records: {}", results.len());
+    HttpServer::new(|| {
+        App::new()
+            .service(hello_world)
+    })
+    .bind(("127.0.0.1", 3000))?
+    .run()
+    .await
 }
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    env_logger::init();
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::{test, App};
 
-    info!("Starting UK Property Price Analysis...");
+    #[actix_web::test]
+    async fn test_hello_world_endpoint() {
+        let app = test::init_service(App::new().service(hello_world)).await;
 
-    match query_uk_property_prices().await {
-        Ok(results) => {
-            info!("Successfully retrieved property price data");
-            print_property_results(&results);
-        }
-        Err(e) => {
-            error!("Failed to query property prices: {}", e);
-            eprintln!("Error: {}", e);
-            std::process::exit(1);
-        }
+        let req = test::TestRequest::get()
+            .uri("/helloworld?name=Alice")
+            .to_request();
+
+        let resp = test::call_service(&app, req).await;
+        assert!(resp.status().is_success());
+
+        let body = test::read_body(resp).await;
+        assert_eq!(body, "welcome to Rust Alice");
     }
 
-    info!("Application completed successfully");
-    Ok(())
+    #[actix_web::test]
+    async fn test_hello_world_with_different_name() {
+        let app = test::init_service(App::new().service(hello_world)).await;
+
+        let req = test::TestRequest::get()
+            .uri("/helloworld?name=Bob")
+            .to_request();
+
+        let resp = test::call_service(&app, req).await;
+        assert!(resp.status().is_success());
+
+        let body = test::read_body(resp).await;
+        assert_eq!(body, "welcome to Rust Bob");
+    }
+
+    #[actix_web::test]
+    async fn test_hello_world_with_special_characters() {
+        let app = test::init_service(App::new().service(hello_world)).await;
+
+        let req = test::TestRequest::get()
+            .uri("/helloworld?name=John%20Doe")
+            .to_request();
+
+        let resp = test::call_service(&app, req).await;
+        assert!(resp.status().is_success());
+
+        let body = test::read_body(resp).await;
+        assert_eq!(body, "welcome to Rust John Doe");
+    }
 }
