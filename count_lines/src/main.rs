@@ -1,6 +1,6 @@
 use std::{ fs::File, io::{BufReader}};
 use std::path::Path;
-use anyhow::{Result, Context};
+use anyhow::{Result, Context,bail};
 use count_lines::count_lines_and_words;
 use clap::{Parser};
 
