@@ -1,0 +1,10 @@
+[package]
+name = "hello"
+version = "0.1.0"
+edition = "2024"
+authors = ["shri sakrikar","shrisakrikar@hotmail.com"]
+description = "A simple hello world library"
+license = "MIT"
+keywords = ["hello_world","learning"]
+
+[dependencies]
