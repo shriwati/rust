@@ -1,5 +1,7 @@
-use csv::StringRecord;
 use crate::prices::StockPrices;
+use csv::StringRecord;
+use log::{error, info};
+
 pub mod prices {
     use chrono::NaiveDate;
     use serde::{Deserialize, Serialize};
@@ -36,7 +38,7 @@ pub mod prices {
         high_price: f64,
         low_price: f64,
         close_price: f64,
-        volume: u64
+        volume: u64,
     }
 
     impl StockPrices {
@@ -47,7 +49,7 @@ pub mod prices {
             high_price: f64,
             low_price: f64,
             close_price: f64,
-            volume: u64
+            volume: u64,
         ) -> StockPrices {
             StockPrices {
                 name,
@@ -57,35 +59,50 @@ pub mod prices {
                 low_price,
                 close_price,
                 volume,
-
             }
         }
     }
 }
 
-
-pub fn read_csv(file_name: &str) {
-  let full_path = std::path::Path::new(file_name);
-    println!("{:?}", full_path);
-    let file = csv::Reader::from_path(full_path);
+pub fn read_csv(file_name: &str)->Result<Vec<StockPrices>,csv::Error> {
+    info!("reading csv file: {}", file_name);
+    // log every step of the way
+    // Open the file with full path
+    let mut stock_prices: Vec<StockPrices> = Vec::new();
     let header = StringRecord::from(vec![
-        "name","trade_date","open_price",
-        "high_price","low_price","close_price","volume"
+        "name", "trade_date", "open_price", "high_price", "low_price", "close_price", "volume",
     ]);
-    //Date,Open,High,Low,Close,Volume
-    match file {
-        Ok(mut reader) => {
-            for result in reader.records() {
-                match result {
+    // get a reader
+    let mut rdr = csv::Reader::from_path(file_name);
+    // if OK
+    match &mut rdr {
+        Ok(rdr) => {
+            // for each record in reader
+            for record in rdr.records() {
+                match record {
                     Ok(record) => {
-                        let record:StockPrices = record.deserialize(Some(&header)).unwrap();
-                            println!("{:?}", record);
-                    },
-                    Err(e) => println!("Error parsing CSV record: {}", e),
+                        info!("Deserializing record: {:?}", record);
+                        match record.deserialize(Some(&header)) {
+                            Ok(stock_price) => {
+                                // if reader is OK
+                                info!("Deserialized record: {:?}", &stock_price);
+                                // populate the StockPrices struct and push it to the vector
+                                stock_prices.push(stock_price);
+                            }
+
+                            Err(e) => error!("error deserializing record: {:?} - {} ", record, e),
+                        }
+                    }
+                    Err(e) => {
+                        error!("error parsing CSV record: {}", e);
+                    }
                 }
             }
         }
-        Err(e) => println!("Error opening file: {}", e),
-    };
-
+        // else report file not found
+        Err(e) => {
+            error!("error reading csv file: {} - error {}", &file_name, e);
+        }
+    }
+    Ok(stock_prices)
 }
