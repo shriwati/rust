@@ -1,0 +1,16 @@
+[package]
+name = "stock_prices"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = { version = "0.4.43", features = ["serde"] }
+csv = "1.4.0"
+log4rs = "1.4.0"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4.29"
+
+[dev-dependencies]
+serde_json = "1.0"
+csv = "1.4.0"
