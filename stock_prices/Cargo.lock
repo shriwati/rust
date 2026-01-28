@@ -102,6 +102,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "date_format_serde"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "derive_more"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -527,10 +536,10 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "csv",
+ "date_format_serde",
  "log",
  "log4rs",
  "serde",
- "serde_json",
 ]
 
 [[package]]
