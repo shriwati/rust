@@ -1,4 +1,4 @@
-pub mod date_format {
+pub mod date_format_naive {
     use chrono::NaiveDate;
     use serde::{self, Deserialize, Deserializer, Serializer};
 
@@ -29,7 +29,7 @@ mod test {
 
     #[derive(Serialize, Deserialize, Debug, PartialEq)]
     struct TestDate {
-        #[serde(with = "date_format")]
+        #[serde(with = "date_format_naive")]
         date: NaiveDate,
     }
 
