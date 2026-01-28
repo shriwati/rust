@@ -140,7 +140,7 @@ mod test{
         let stock_prices = read_price(&file_name).unwrap();
         let from_date = NaiveDate::from_ymd_opt(2025,1,2).unwrap();
         let price = find_price_for_date(&stock_prices,from_date);
-        assert!(price.unwrap().close_price == 243.85);
+        assert_eq!(price.unwrap().close_price, 243.85);
     }
 
 }
