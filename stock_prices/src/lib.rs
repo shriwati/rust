@@ -112,13 +112,13 @@ mod test{
     use crate::prices::{read_price,find_avg_price_for_dates,find_price_for_date};
     #[test]
     fn test_read_price() {
-        let file_name = "/Users/shrisakrikar/Documents/data/AAPL.csv";
+        let file_name = "data/AAPL.csv";
         let stock_prices = read_price(&file_name).unwrap();
         assert!(!stock_prices.is_empty());
     }
     #[test]
     fn find_avg_price_for_date(){
-        let file_name = "/Users/shrisakrikar/Documents/data/AAPL.csv";
+        let file_name = "data/AAPL.csv";
         let stock_prices = read_price(&file_name).unwrap();
         let from_date = NaiveDate::from_ymd_opt(2025,1,1).unwrap();
         let to_date = NaiveDate::from_ymd_opt(2025,3,31).unwrap();
@@ -127,7 +127,7 @@ mod test{
     }
     #[test]
     fn no_price(){
-        let file_name = "/Users/shrisakrikar/Documents/data/AAPL.csv";
+        let file_name = "data/AAPL.csv";
         let stock_prices = read_price(&file_name).unwrap();
         let from_date = NaiveDate::from_ymd_opt(2025,1,1).unwrap();
         let price = find_price_for_date(&stock_prices,from_date);
